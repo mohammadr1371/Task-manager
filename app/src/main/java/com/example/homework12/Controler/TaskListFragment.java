@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,6 +29,7 @@ public class TaskListFragment extends Fragment {
 
     private RecyclerView mTaskRecyclerView;
     private ArrayList<Task> mTaskArrayList;
+    private LinearLayout mEmptyListIcon;
 
     public static TaskListFragment newInstance(ArrayList<Task> taskArrayList) {
         TaskListFragment fragment = new TaskListFragment();
@@ -48,12 +51,24 @@ public class TaskListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_task_list, container, false);
         findViews(view);
+        setVisibility();
         intView();
         return view;
     }
 
+    private void setVisibility() {
+        if(mTaskArrayList.size() == 0){
+            mEmptyListIcon.setVisibility(View.VISIBLE);
+            mTaskRecyclerView.setVisibility(View.GONE);
+        } else {
+            mEmptyListIcon.setVisibility(View.GONE);
+            mTaskRecyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void findViews(View view) {
         mTaskRecyclerView = view.findViewById(R.id.layout_task_list);
+        mEmptyListIcon = view.findViewById(R.id.imageView_empty_list);
     }
 
     private void intView() {
@@ -66,16 +81,19 @@ public class TaskListFragment extends Fragment {
         LinearLayout mRow;
         TextView mTextViewTaskTitle;
         TextView mTextViewTaskState;
+        Button mButtonIcon;
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
             mRow = itemView.findViewById(R.id.row_layout);
             mTextViewTaskTitle = itemView.findViewById(R.id.textView_task_title);
             mTextViewTaskState = itemView.findViewById(R.id.textView_task_state);
+            mButtonIcon = itemView.findViewById(R.id.button_row_icon);
         }
 
         public void bindView(final int position){
             mTextViewTaskTitle.setText(mTaskArrayList.get(position).getName());
             mTextViewTaskState.setText(mTaskArrayList.get(position).getState());
+            mButtonIcon.setText(String.valueOf(mTaskArrayList.get(position).getName().charAt(0)));
             if(mTaskArrayList.get(position).getState().equals("Todo")){
                 mRow.setBackgroundColor(Color.RED);
             } else if(mTaskArrayList.get(position).getState().equals("Doing")){

@@ -1,7 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_task_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Controler.TaskListFragment" />
+    android:background="#C6C4C4"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".Controler.TaskListFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/layout_task_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/imageView_empty_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="No task"
+            android:textColor="#050505"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/add_list_icon_siyah_sefid"
+            android:visibility="visible" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -10,6 +10,16 @@
     android:padding="8dp"
     tools:context=".Controler.SignInDialogFragment">
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Sign up"
+        android:textColor="#8F2301"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
     <EditText
         android:id="@+id/editText_username_in_dialog"
         android:layout_width="match_parent"
@@ -38,4 +48,31 @@
         android:gravity="start|top"
         android:hint="Retype Password"
         android:inputType="textMultiLine" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_cancel_in_sign_up_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:background="#FA2B2B"
+            android:text="Cancel"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/button_sign_up_in_sign_up_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#4CAF50"
+            android:text="Sign up"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 </LinearLayout>

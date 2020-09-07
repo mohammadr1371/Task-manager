@@ -35,7 +35,6 @@ public class DatePickerDialogFragment extends DialogFragment {
 
     private DatePicker mDatePicker;
 
-    // TODO: Rename and change types and number of parameters
     public static DatePickerDialogFragment newInstance(Date currentDate) {
         DatePickerDialogFragment fragment = new DatePickerDialogFragment();
         Bundle args = new Bundle();

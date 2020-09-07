@@ -3,6 +3,7 @@ package com.example.homework12.Models;
 import com.example.homework12.utils.DateUtils;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
@@ -14,6 +15,7 @@ public class Task implements Serializable {
     private String mDescription;
     private UUID mUUID;
     private Date mDate;
+    private Time mTime;
 
     public Date getDate() {
         return mDate;
