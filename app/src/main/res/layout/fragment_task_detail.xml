@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EFB1FA"
+    android:orientation="vertical"
+    android:padding="8dp"
+    tools:context=".Controler.TaskDetailFragment">
+
+    <TextView
+        android:id="@+id/textView_detail_task_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#3F51B5"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        tools:text="Task Title" />
+
+    <TextView
+        android:id="@+id/textView_detail_task_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="#070000"
+        android:textSize="30sp"
+        tools:text="Task State" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Task description:"
+        android:textColor="#390202"
+        android:textSize="22dp" />
+
+    <TextView
+        android:id="@+id/textView_detail_task_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="18sp"
+        tools:text="description" />
+
+    <Button
+        android:id="@+id/button_detail_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="15dp"
+        tools:text="time" />
+
+    <Button
+        android:id="@+id/button_detail_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        android:textSize="15dp" />
+</LinearLayout>
