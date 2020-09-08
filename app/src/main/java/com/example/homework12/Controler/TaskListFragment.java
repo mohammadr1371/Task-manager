@@ -26,6 +26,7 @@ import java.util.ArrayList;
 public class TaskListFragment extends Fragment {
 
     public static final String TASK_IN_TASK_LIST_FRAGMENT = "task in task list fragment";
+    public static final String TASK_DETAIL_DIALOG_FRAGMENT = "task detail dialog fragment";
 
     private RecyclerView mTaskRecyclerView;
     private ArrayList<Task> mTaskArrayList;
@@ -56,6 +57,12 @@ public class TaskListFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        intView();
+    }
+
     private void setVisibility() {
         if(mTaskArrayList.size() == 0){
             mEmptyListIcon.setVisibility(View.VISIBLE);
@@ -72,6 +79,7 @@ public class TaskListFragment extends Fragment {
     }
 
     private void intView() {
+        mTaskArrayList = (ArrayList<Task>) getArguments().getSerializable(TASK_IN_TASK_LIST_FRAGMENT);
         mTaskRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         TaskAdapter taskAdapter = new TaskAdapter(mTaskArrayList);
         mTaskRecyclerView.setAdapter(taskAdapter);
@@ -105,8 +113,9 @@ public class TaskListFragment extends Fragment {
             mRow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = TaskDetailActivity.newIntent(getActivity(), mTaskArrayList.get(position));
-                    startActivity(intent);
+                    TaskDetailDialogFragment taskDetailDialogFragment = TaskDetailDialogFragment
+                            .newInstance(mTaskArrayList.get(position));
+                    taskDetailDialogFragment.show(getFragmentManager(), TASK_DETAIL_DIALOG_FRAGMENT);
                 }
             });
         }

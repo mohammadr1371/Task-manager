@@ -15,7 +15,6 @@ public class Task implements Serializable {
     private String mDescription;
     private UUID mUUID;
     private Date mDate;
-    private Time mTime;
 
     public Date getDate() {
         return mDate;

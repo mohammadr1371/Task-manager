@@ -48,6 +48,7 @@ public class StarterFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mTaskRepository = TaskRepository.getInstance();
+        mUserNameMap.put("admin" , "5187");
     }
 
     @Override

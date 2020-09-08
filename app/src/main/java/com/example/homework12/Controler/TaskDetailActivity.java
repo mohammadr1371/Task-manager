@@ -1,7 +1,6 @@
 
 package com.example.homework12.Controler;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -25,7 +24,7 @@ public class TaskDetailActivity extends AppCompatActivity {
         Fragment fragment = fragmentManager.findFragmentById(R.id.activity_task_detail_container);
         if(fragment == null){
             fragmentManager.beginTransaction()
-                    .add(R.id.activity_task_detail_container, TaskDetailFragment.newInstance((Task) getIntent()
+                    .add(R.id.activity_task_detail_container, TaskDetailDialogFragment.newInstance((Task) getIntent()
                             .getSerializableExtra(TASK_IN_DETAIL_ACTIVITY)))
                     .commit();
         }

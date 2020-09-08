@@ -1,9 +1,14 @@
 package com.example.homework12.Controler;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +21,16 @@ import com.example.homework12.Models.Task;
 import com.example.homework12.R;
 import com.example.homework12.Repository.TaskRepository;
 
+import java.util.Date;
+
 public class AddFragment extends Fragment {
 
     public static final String USERNAME_IN_ADD_FRAGMENT = "username in add fragment";
+    public static final int DATE_PICKER_REQUEST_CODE = 1;
+    public static final String DATE_PICKER_DIALOG_FRAGMENT = "date picker dialog fragment";
+
+    private Task mTask;
+
     private String mUsername;
 
     private TaskRepository mTaskRepository;
@@ -46,6 +58,7 @@ public class AddFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mTaskRepository = TaskRepository.getInstance();
         mUsername = getArguments().getString(AddFragment.USERNAME_IN_ADD_FRAGMENT);
+        mTask = new Task("task", 0, "description");
     }
 
     @Override
@@ -67,7 +80,10 @@ public class AddFragment extends Fragment {
         mButtonAddTask = view.findViewById(R.id.button_add_task);
     }
 
+
+
     public void setListeners(){
+
         mButtonAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,15 +93,47 @@ public class AddFragment extends Fragment {
                     Toast.makeText(getActivity(), "Please fill task states", Toast.LENGTH_LONG).show();
                 } else {
                     if(mRadioButtonTodo.isChecked()){
-                        mTaskRepository.insertTodoTaskList(mEditTextTitle.getText().toString(), mUsername, mEditTextDescription.getText().toString());
+                        mTask.setName(mEditTextTitle.getText().toString());
+                        mTask.setState("Todo");
+                        mTask.setDescription(mEditTextDescription.getText().toString());
+                        mTaskRepository.insertTodoTaskList(mTask, mUsername);
                     } else if(mRadioButtonDoing.isChecked()){
-                        mTaskRepository.insertDoingTaskList(mEditTextTitle.getText().toString(), mUsername, mEditTextDescription.getText().toString());
+                        mTask.setName(mEditTextTitle.getText().toString());
+                        mTask.setState("Doing");
+                        mTask.setDescription(mEditTextDescription.getText().toString());
+                        mTaskRepository.insertDoingTaskList(mTask, mUsername);
                     } else if(mRadioButtonDone.isChecked()){
-                        mTaskRepository.insertDoneTaskList(mEditTextTitle.getText().toString(), mUsername, mEditTextDescription.getText().toString());
+                        mTask.setName(mEditTextTitle.getText().toString());
+                        mTask.setState("Done");
+                        mTask.setDescription(mEditTextDescription.getText().toString());
+                        mTaskRepository.insertDoneTaskList(mTask, mUsername);
                     }
                     getActivity().finish();
                 }
             }
         });
+
+        mButtonAddData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialogFragment datePickerDialogFragment = DatePickerDialogFragment.newInstance(mTask.getDate());
+                datePickerDialogFragment.setTargetFragment(AddFragment.this, DATE_PICKER_REQUEST_CODE);
+                datePickerDialogFragment.show(getFragmentManager(), DATE_PICKER_DIALOG_FRAGMENT);
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != Activity.RESULT_OK || data == null) {
+            return;
+        }
+
+        if (requestCode == DATE_PICKER_REQUEST_CODE) {
+            Date userSelectedDate = (Date) data.getSerializableExtra(DatePickerDialogFragment.USER_SELECTED_DATE);
+            mTask.setDate(userSelectedDate);
+            mTaskRepository.setTask(mTask);
+        }
     }
 }

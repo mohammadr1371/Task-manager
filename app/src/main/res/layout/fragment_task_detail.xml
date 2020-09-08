@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EFB1FA"
     android:orientation="vertical"
     android:padding="8dp"
-    tools:context=".Controler.TaskDetailFragment">
+    tools:context=".Controler.TaskDetailDialogFragment">
 
     <TextView
         android:id="@+id/textView_detail_task_title"
@@ -48,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:textSize="15dp"
+        android:textSize="14sp"
         tools:text="time" />
 
     <Button
@@ -57,4 +58,13 @@
         android:layout_height="wrap_content"
         android:text="Button"
         android:textSize="15dp" />
+
+    <ImageButton
+        android:id="@+id/button_delete_in_task_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_action_delete2" />
+
 </LinearLayout>

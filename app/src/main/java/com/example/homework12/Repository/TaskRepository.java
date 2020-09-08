@@ -14,6 +14,7 @@ import java.util.UUID;
 
 public class TaskRepository {
 
+    public static final String ADMIN = "admin";
     public static TaskRepository sTaskRepository;
 
     public static TaskRepository getInstance(){
@@ -27,6 +28,17 @@ public class TaskRepository {
     ArrayList<ArrayList<Task>> mArrayListsOfLists = new ArrayList<>();
 
     private TaskRepository() {
+        initAdmin();
+    }
+
+    private void initAdmin() {
+        mTaskOfUser.put(ADMIN, new ArrayList<ArrayList<Task>>());
+        ArrayList<Task> ToDOTasksList = new ArrayList<>();
+        ArrayList<Task> DoingTasksList = new ArrayList<>();
+        ArrayList<Task> DoneTasksList = new ArrayList<>();
+        mTaskOfUser.get(ADMIN).add(ToDOTasksList);
+        mTaskOfUser.get(ADMIN).add(DoingTasksList);
+        mTaskOfUser.get(ADMIN).add(DoneTasksList);
     }
 
     public ArrayList<ArrayList<Task>> getArrayListsOfLists(String username) {
@@ -34,22 +46,31 @@ public class TaskRepository {
         return mArrayListsOfLists;
     }
 
-    public void insertTodoTaskList(String name, String username, String description){
-        Task task = new Task(name, 0, description );
+    public void insertTodoTaskList(Task task, String username){
         ArrayList<Task> mTodoTaskList = mTaskOfUser.get(username).get(0);
         mTodoTaskList.add(task);
+        if(!username.equals(ADMIN)) {
+            ArrayList<Task> adminTodoTaskList = mTaskOfUser.get(ADMIN).get(0);
+            adminTodoTaskList.add(task);
+        }
     }
 
-    public void insertDoingTaskList(String name, String username, String description){
-        Task task = new Task(name, 1, description);
+    public void insertDoingTaskList(Task task, String username){
         ArrayList<Task> mDoingTaskList = mTaskOfUser.get(username).get(1);
         mDoingTaskList.add(task);
+        if(!username.equals(ADMIN)) {
+            ArrayList<Task> adminDoingTaskList = mTaskOfUser.get(ADMIN).get(1);
+            adminDoingTaskList.add(task);
+        }
     }
 
-    public void insertDoneTaskList(String name, String username, String description){
-        Task task = new Task(name, 2, description);
+    public void insertDoneTaskList(Task task, String username){
         ArrayList<Task> mDoneTaskList = mTaskOfUser.get(username).get(2);
         mDoneTaskList.add(task);
+        if(!username.equals(ADMIN)) {
+            ArrayList<Task> adminDoneTaskList = mTaskOfUser.get(ADMIN).get(2);
+            adminDoneTaskList.add(task);
+        }
     }
 
     public void setTask(Task inputTask){
@@ -59,6 +80,17 @@ public class TaskRepository {
                     task.setName(inputTask.getName());
                     task.setState(inputTask.getState());
                     task.setDate(inputTask.getDate());
+                    return;
+                }
+            }
+        }
+    }
+
+    public void deleteTask(Task inputTask){
+        for (int i=0; i<3; i++){
+            for (Task task: mArrayListsOfLists.get(i)) {
+                if(task.getUUID().equals(inputTask.getUUID())){
+                    mArrayListsOfLists.get(i).remove(task);
                     return;
                 }
             }
