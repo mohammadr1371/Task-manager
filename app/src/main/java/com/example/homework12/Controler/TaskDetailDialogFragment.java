@@ -3,6 +3,7 @@ package com.example.homework12.Controler;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -29,6 +30,8 @@ public class TaskDetailDialogFragment extends DialogFragment {
     public static final int DATE_PICKER_REQUEST_CODE = 0;
     public static final int TIME_PICKER_REQUEST_CODE = 1;
     public static final String TIME_PICKER_DIALOG_FRAGMENT = "time picker dialog fragment";
+
+    private callBacks mCallBacks;
 
     private TaskRepository mTaskRepository;
 
@@ -64,12 +67,26 @@ public class TaskDetailDialogFragment extends DialogFragment {
     LayoutInflater inflater = LayoutInflater.from(getActivity());
     View view = inflater.inflate(R.layout.fragment_task_detail, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setView(view);
+        builder
+                .setView(view)
+                .setPositiveButton(android.R.string.ok, null);
         findViews(view);
         initView();
         setListeners();
         AlertDialog dialog = builder.create();
         return dialog;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mCallBacks = (callBacks) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallBacks = null;
     }
 
     public void findViews(View view){
@@ -112,6 +129,7 @@ public class TaskDetailDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 mTaskRepository.deleteTask(mTaskInDetail);
+                mCallBacks.updateView();
                 dismiss();
             }
         });
@@ -139,5 +157,9 @@ public class TaskDetailDialogFragment extends DialogFragment {
             mButtonTaskTimeInDetail.setText(String.valueOf(mTaskInDetail.getDate().getTime()));
             mTaskRepository.setTask(mTaskInDetail);
         }
+    }
+
+    public interface callBacks{
+        public void updateView();
     }
 }

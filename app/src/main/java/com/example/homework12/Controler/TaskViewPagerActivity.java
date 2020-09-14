@@ -25,9 +25,10 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 
-public class TaskViewPagerActivity extends AppCompatActivity {
+public class TaskViewPagerActivity extends AppCompatActivity implements AddDialogFragment.callBacks,TaskDetailDialogFragment.callBacks {
 
     public static final String USER_NAME_FOR_ADD_ACTIVITY = "user name for add activity";
+    public static final String ADD_DIALOG_FRAGMENT = "add dialog fragment";
     private ViewPager2 mTaskPager;
 
     private TabLayout mTabLayout;
@@ -96,9 +97,8 @@ public class TaskViewPagerActivity extends AppCompatActivity {
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(TaskViewPagerActivity.this, AddActivity.class);
-                intent.putExtra(USER_NAME_FOR_ADD_ACTIVITY, mUserName);
-                startActivity(intent);
+                AddDialogFragment addDialogFragment = AddDialogFragment.newInstance(mUserName);
+                addDialogFragment.show(getSupportFragmentManager(), ADD_DIALOG_FRAGMENT);
             }
         });
     }
@@ -118,6 +118,11 @@ public class TaskViewPagerActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void updateView() {
+        initViewPager();
     }
 
     class TaskPagerAdapter extends FragmentStateAdapter {

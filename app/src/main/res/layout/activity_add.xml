@@ -4,4 +4,4 @@
     android:id="@+id/fragment_add_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Controler.AddFragment" />
+    tools:context=".Controler.AddDialogFragment" />

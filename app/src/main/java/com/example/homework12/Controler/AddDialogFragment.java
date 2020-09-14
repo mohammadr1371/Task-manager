@@ -1,17 +1,21 @@
 package com.example.homework12.Controler;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.DialogFragment;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -23,11 +27,13 @@ import com.example.homework12.Repository.TaskRepository;
 
 import java.util.Date;
 
-public class AddFragment extends Fragment {
+public class AddDialogFragment extends DialogFragment {
 
     public static final String USERNAME_IN_ADD_FRAGMENT = "username in add fragment";
     public static final int DATE_PICKER_REQUEST_CODE = 1;
     public static final String DATE_PICKER_DIALOG_FRAGMENT = "date picker dialog fragment";
+
+    private callBacks mCallBacks;
 
     private Task mTask;
 
@@ -45,8 +51,8 @@ public class AddFragment extends Fragment {
     private Button mButtonAddData;
     private Button mButtonAddTask;
 
-    public static AddFragment newInstance(String username) {
-        AddFragment fragment = new AddFragment();
+    public static AddDialogFragment newInstance(String username) {
+        AddDialogFragment fragment = new AddDialogFragment();
         Bundle arg = new Bundle();
         arg.putString(USERNAME_IN_ADD_FRAGMENT, username);
         fragment.setArguments(arg);
@@ -57,17 +63,21 @@ public class AddFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mTaskRepository = TaskRepository.getInstance();
-        mUsername = getArguments().getString(AddFragment.USERNAME_IN_ADD_FRAGMENT);
+        mUsername = getArguments().getString(AddDialogFragment.USERNAME_IN_ADD_FRAGMENT);
         mTask = new Task("task", 0, "description");
     }
 
+    @NonNull
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add, container, false);
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        View view = inflater.inflate(R.layout.fragment_add, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(view);
         findViews(view);
         setListeners();
-        return view;
+        AlertDialog dialog = builder.create();
+        return dialog;
     }
 
     public void findViews(View view){
@@ -108,7 +118,10 @@ public class AddFragment extends Fragment {
                         mTask.setDescription(mEditTextDescription.getText().toString());
                         mTaskRepository.insertDoneTaskList(mTask, mUsername);
                     }
-                    getActivity().finish();
+                    if(mCallBacks instanceof TaskViewPagerActivity) {
+                        mCallBacks.updateView();
+                    }
+                    dismiss();
                 }
             }
         });
@@ -117,10 +130,28 @@ public class AddFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 DatePickerDialogFragment datePickerDialogFragment = DatePickerDialogFragment.newInstance(mTask.getDate());
-                datePickerDialogFragment.setTargetFragment(AddFragment.this, DATE_PICKER_REQUEST_CODE);
+                datePickerDialogFragment.setTargetFragment(AddDialogFragment.this, DATE_PICKER_REQUEST_CODE);
                 datePickerDialogFragment.show(getFragmentManager(), DATE_PICKER_DIALOG_FRAGMENT);
             }
         });
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mCallBacks = (callBacks) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallBacks = null;
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        Toast.makeText(getActivity(), "Your task added successfully", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -135,5 +166,9 @@ public class AddFragment extends Fragment {
             mTask.setDate(userSelectedDate);
             mTaskRepository.setTask(mTask);
         }
+    }
+
+    public interface callBacks{
+        public void updateView();
     }
 }

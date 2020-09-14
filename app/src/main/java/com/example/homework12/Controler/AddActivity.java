@@ -20,7 +20,7 @@ public class AddActivity extends AppCompatActivity {
         Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_add_container);
         if(fragment == null){
             fragmentManager.beginTransaction()
-                    .add(R.id.fragment_add_container, AddFragment.newInstance(mUsername))
+                    .add(R.id.fragment_add_container, AddDialogFragment.newInstance(mUsername))
                     .commit();
         }
     }
