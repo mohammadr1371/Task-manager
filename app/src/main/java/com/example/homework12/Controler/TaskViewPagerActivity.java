@@ -7,8 +7,6 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.ClipData;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,12 +16,13 @@ import android.widget.TextView;
 
 import com.example.homework12.Models.Task;
 import com.example.homework12.R;
-import com.example.homework12.Repository.TaskRepository;
+import com.example.homework12.Repository.AppRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TaskViewPagerActivity extends AppCompatActivity implements AddDialogFragment.callBacks,TaskDetailDialogFragment.callBacks {
 
@@ -33,9 +32,11 @@ public class TaskViewPagerActivity extends AppCompatActivity implements AddDialo
 
     private TabLayout mTabLayout;
 
-    private ArrayList<ArrayList<Task>> mTaskForAdapter;
+    ArrayList<ArrayList<Task>> mTaskListForAdapter;
 
-    private TaskRepository mTaskRepository;
+    private ArrayList<Task> mTaskList;
+
+    private AppRepository mAppRepository;
 
     private TextView mTextViewUsername;
 
@@ -48,10 +49,11 @@ public class TaskViewPagerActivity extends AppCompatActivity implements AddDialo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_view_pager);
-        mUserName = getIntent().getStringExtra(StarterFragment.USERNAME);
+        mUserName = getIntent().getStringExtra(StarterFragment.USERNAME_IN_STARTER);
+        mAppRepository = AppRepository.getInstance(this);
+        mTaskList = getTaskListOFUser(mUserName);
         findViews();
         initView();
-        mTaskRepository = TaskRepository.getInstance();
         initViewPager();
         setListener();
     }
@@ -68,8 +70,8 @@ public class TaskViewPagerActivity extends AppCompatActivity implements AddDialo
     }
 
     public void initViewPager() {
-        mTaskForAdapter = mTaskRepository.getArrayListsOfLists(mUserName);
-        TaskPagerAdapter taskPagerAdapter = new TaskPagerAdapter(this, mTaskForAdapter);
+        mTaskListForAdapter = getArrayListForViewpager((ArrayList<Task>) mAppRepository.mITaskDatabaseDao().getTaskList());
+        TaskPagerAdapter taskPagerAdapter = new TaskPagerAdapter(this, mTaskListForAdapter);
         mTaskPager.setAdapter(taskPagerAdapter);
         new TabLayoutMediator(mTabLayout, mTaskPager,
                 new TabLayoutMediator.TabConfigurationStrategy() {
@@ -146,5 +148,38 @@ public class TaskViewPagerActivity extends AppCompatActivity implements AddDialo
         public int getItemCount() {
             return mTaskArrayList.size();
         }
+    }
+
+    private ArrayList<Task> getTaskListOFUser (String userName){
+        ArrayList<Task> allTasks = (ArrayList<Task>) mAppRepository.mITaskDatabaseDao().getTaskList();
+        ArrayList<Task> outputTaskList = new ArrayList<>();
+        for (Task task: allTasks) {
+            if (task.getUsername().equals(userName)){
+                outputTaskList.add(task);
+            }
+        }
+        return outputTaskList;
+    }
+
+    private ArrayList<ArrayList<Task>> getArrayListForViewpager(ArrayList<Task> tasks){
+        ArrayList<ArrayList<Task>> arrayListOfArrayList = new ArrayList<>();
+        ArrayList<Task> todoTaskList = new ArrayList<>();
+        ArrayList<Task> doingTaskList = new ArrayList<>();
+        ArrayList<Task> doneTaskList = new ArrayList<>();
+        for (Task task: tasks) {
+            if(task.getState().equals("Todo")) {
+                todoTaskList.add(task);
+            } else if(task.getState().equals("Doing")){
+                doingTaskList.add(task);
+            } else if(task.getState().equals("Done")){
+                doneTaskList.add(task);
+            }
+        }
+
+        arrayListOfArrayList.add(todoTaskList);
+        arrayListOfArrayList.add(doingTaskList);
+        arrayListOfArrayList.add(doingTaskList);
+
+        return arrayListOfArrayList;
     }
 }

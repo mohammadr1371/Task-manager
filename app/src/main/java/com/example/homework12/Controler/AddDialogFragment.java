@@ -6,12 +6,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 
 import android.view.LayoutInflater;
@@ -23,7 +21,7 @@ import android.widget.Toast;
 
 import com.example.homework12.Models.Task;
 import com.example.homework12.R;
-import com.example.homework12.Repository.TaskRepository;
+import com.example.homework12.Repository.AppRepository;
 
 import java.util.Date;
 
@@ -39,7 +37,7 @@ public class AddDialogFragment extends DialogFragment {
 
     private String mUsername;
 
-    private TaskRepository mTaskRepository;
+    private AppRepository mAppRepository;
 
     private EditText mEditTextTitle;
     private EditText mEditTextDescription;
@@ -62,7 +60,7 @@ public class AddDialogFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mTaskRepository = TaskRepository.getInstance();
+        mAppRepository = AppRepository.getInstance();
         mUsername = getArguments().getString(AddDialogFragment.USERNAME_IN_ADD_FRAGMENT);
         mTask = new Task("task", 0, "description");
     }
@@ -106,17 +104,17 @@ public class AddDialogFragment extends DialogFragment {
                         mTask.setName(mEditTextTitle.getText().toString());
                         mTask.setState("Todo");
                         mTask.setDescription(mEditTextDescription.getText().toString());
-                        mTaskRepository.insertTodoTaskList(mTask, mUsername);
+                        mAppRepository.insertTodoTaskList(mTask, mUsername);
                     } else if(mRadioButtonDoing.isChecked()){
                         mTask.setName(mEditTextTitle.getText().toString());
                         mTask.setState("Doing");
                         mTask.setDescription(mEditTextDescription.getText().toString());
-                        mTaskRepository.insertDoingTaskList(mTask, mUsername);
+                        mAppRepository.insertDoingTaskList(mTask, mUsername);
                     } else if(mRadioButtonDone.isChecked()){
                         mTask.setName(mEditTextTitle.getText().toString());
                         mTask.setState("Done");
                         mTask.setDescription(mEditTextDescription.getText().toString());
-                        mTaskRepository.insertDoneTaskList(mTask, mUsername);
+                        mAppRepository.insertDoneTaskList(mTask, mUsername);
                     }
                     if(mCallBacks instanceof TaskViewPagerActivity) {
                         mCallBacks.updateView();
@@ -164,7 +162,7 @@ public class AddDialogFragment extends DialogFragment {
         if (requestCode == DATE_PICKER_REQUEST_CODE) {
             Date userSelectedDate = (Date) data.getSerializableExtra(DatePickerDialogFragment.USER_SELECTED_DATE);
             mTask.setDate(userSelectedDate);
-            mTaskRepository.setTask(mTask);
+            mAppRepository.setTask(mTask);
         }
     }
 

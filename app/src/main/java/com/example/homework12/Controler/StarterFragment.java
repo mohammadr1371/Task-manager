@@ -13,21 +13,17 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.homework12.Models.User;
 import com.example.homework12.R;
-import com.example.homework12.Repository.TaskRepository;
+import com.example.homework12.Repository.AppRepository;
 
-import java.util.HashMap;
+import java.util.List;
 
 public class StarterFragment extends Fragment {
 
-    public static final String NAME_OF_TASKS = "Name of tasks";
-    public static final String NUMBER_OF_TASKS = "Number of tasks";
-    public static final String USERNAME = "username";
-    public static final String SING_IN_DIALOG_FRAGMENT = "Sing in Dialog Fragment";
     public static final String SIGN_UP_DIALOG_FRAGMENT = "sign up dialog fragment";
     public static final int SIGN_UP_DIALOG_REQUEST_CODE = 0;
-
-    private HashMap<String, String> mUserNameMap = new HashMap<>();
+    public static final String USERNAME_IN_STARTER = "username in starter";
 
     private String inputUsername;
 
@@ -37,7 +33,7 @@ public class StarterFragment extends Fragment {
     private Button mButtonLogin;
     private Button mButtonSignUp;
 
-    private TaskRepository mTaskRepository;
+    private AppRepository mAppRepository;
 
     public static StarterFragment newInstance() {
         StarterFragment fragment = new StarterFragment();
@@ -47,8 +43,8 @@ public class StarterFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mTaskRepository = TaskRepository.getInstance();
-        mUserNameMap.put("admin" , "5187");
+        mAppRepository = AppRepository.getInstance(getActivity());
+//        mUserNameMap.put("admin" , "5187");
     }
 
     @Override
@@ -71,38 +67,41 @@ public class StarterFragment extends Fragment {
         mButtonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                List<User> usersList = mAppRepository.mITaskDatabaseDao().getUserList();
                 inputUsername = String.valueOf(mEditTextUserName.getText());
                 String inputPasswordString = String.valueOf(mEditTextPassword.getText());
                 if (inputUsername.length() == 0 || inputPasswordString.length() == 0) {
                     Toast.makeText(getActivity(), "Please enter information", Toast.LENGTH_LONG).show();
                 } else {
-                    if (mUserNameMap.containsKey(inputUsername)) {
-                        if (mUserNameMap.get(inputUsername).equals(inputPasswordString)) {
-                            mTaskRepository.addArrayListOfUser(inputUsername);
-                            Intent intent = new Intent(getActivity(), TaskViewPagerActivity.class);
-                            intent.putExtra(USERNAME, inputUsername);
-                            getActivity().startActivity(intent);
+                    if (usersList.size() == 0) {
+                        Toast.makeText(getActivity(), "Incorrect Username or Password", Toast.LENGTH_LONG).show();
+                    } else {
+                        if (searchUser(inputUsername) != null) {
+                            User user = searchUser(inputUsername);
+                            if (!user.getPassword().equalsIgnoreCase(inputPasswordString)) {
+                                Toast.makeText(getActivity(), "Your password is incorrect", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Intent intent = new Intent(getActivity(), TaskViewPagerActivity.class);
+                                intent.putExtra(USERNAME_IN_STARTER, inputUsername);
+                                startActivity(intent);
+                            }
                         } else {
-                            Toast.makeText(getActivity(), "Your password is incorrect", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Incorrect Username or Password", Toast.LENGTH_LONG).show();
                         }
-                } else{
-                    Toast.makeText(getActivity(), "Incorrect Username or Password", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
-        }
-    });
+        });
 
-        mButtonSignUp.setOnClickListener(new View.OnClickListener()
-
-    {
-        @Override
-        public void onClick (View view){
-        SignUpDialogFragment signUpDialogFragment = SignUpDialogFragment.newInstance();
-        signUpDialogFragment.setTargetFragment(StarterFragment.this, SIGN_UP_DIALOG_REQUEST_CODE);
-        signUpDialogFragment.show(getFragmentManager(), SIGN_UP_DIALOG_FRAGMENT);
+        mButtonSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SignUpDialogFragment signUpDialogFragment = SignUpDialogFragment.newInstance();
+                signUpDialogFragment.setTargetFragment(StarterFragment.this, SIGN_UP_DIALOG_REQUEST_CODE);
+                signUpDialogFragment.show(getFragmentManager(), SIGN_UP_DIALOG_FRAGMENT);
+            }
+        });
     }
-    });
-}
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -114,7 +113,18 @@ public class StarterFragment extends Fragment {
         if (requestCode == StarterFragment.SIGN_UP_DIALOG_REQUEST_CODE) {
             String username = data.getStringExtra(SignUpDialogFragment.USERNAME_IN_DIALOG);
             String password = data.getStringExtra(SignUpDialogFragment.PASSWORD_IN_DIALOG);
-            mUserNameMap.put(username, password);
+            User user = new User(username, password);
+            mAppRepository.mITaskDatabaseDao().insertUser(user);
         }
+    }
+
+    public User searchUser(String username) {
+        List<User> users = mAppRepository.mITaskDatabaseDao().getUserList();
+        for (User user : users) {
+            if (user.getUsername().equalsIgnoreCase(username)) {
+                return user;
+            }
+        }
+        return null;
     }
 }

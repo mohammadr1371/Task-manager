@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.example.homework12.Models.Task;
 import com.example.homework12.R;
-import com.example.homework12.Repository.TaskRepository;
+import com.example.homework12.Repository.AppRepository;
 
 import java.util.Date;
 
@@ -33,7 +33,7 @@ public class TaskDetailDialogFragment extends DialogFragment {
 
     private callBacks mCallBacks;
 
-    private TaskRepository mTaskRepository;
+    private AppRepository mAppRepository;
 
     private Task mTaskInDetail;
 
@@ -58,7 +58,7 @@ public class TaskDetailDialogFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mTaskInDetail = (Task) getArguments().getSerializable(TASK_IN_DETAIL);
-        mTaskRepository = TaskRepository.getInstance();
+        mAppRepository = AppRepository.getInstance();
     }
 
     @NonNull
@@ -106,6 +106,7 @@ public class TaskDetailDialogFragment extends DialogFragment {
         mButtonTaskTimeInDetail.setText(String.valueOf(mTaskInDetail.getDate().getTime()));
     }
 
+
     public void setListeners(){
         mButtonTaskDateInDetail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +129,7 @@ public class TaskDetailDialogFragment extends DialogFragment {
         mImageButtonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mTaskRepository.deleteTask(mTaskInDetail);
+                mAppRepository.deleteTask(mTaskInDetail);
                 mCallBacks.updateView();
                 dismiss();
             }
@@ -146,7 +147,7 @@ public class TaskDetailDialogFragment extends DialogFragment {
             Date userSelectedDate = (Date) data.getSerializableExtra(DatePickerDialogFragment.USER_SELECTED_DATE);
             mButtonTaskDateInDetail.setText(userSelectedDate.toString());
             mTaskInDetail.setDate(userSelectedDate);
-            mTaskRepository.setTask(mTaskInDetail);
+            mAppRepository.setTask(mTaskInDetail);
 
         }
 
@@ -155,7 +156,7 @@ public class TaskDetailDialogFragment extends DialogFragment {
             mButtonTaskDateInDetail.setText(updateDateTime.toString());
             mTaskInDetail.setDate(updateDateTime);
             mButtonTaskTimeInDetail.setText(String.valueOf(mTaskInDetail.getDate().getTime()));
-            mTaskRepository.setTask(mTaskInDetail);
+            mAppRepository.setTask(mTaskInDetail);
         }
     }
 

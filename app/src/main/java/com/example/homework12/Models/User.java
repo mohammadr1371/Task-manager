@@ -1,11 +1,21 @@
 package com.example.homework12.Models;
 
-import java.io.Serializable;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-public class User implements Serializable {
-
+@Entity(tableName = "users")
+public class User {
+    @PrimaryKey(autoGenerate = true)
+    private int mId;
+    @ColumnInfo(name = "username")
     private String mUsername;
-    private int mPassword;
+    @ColumnInfo(name = "password")
+    private String mPassword;
+
+    public int getId() {
+        return mId;
+    }
 
     public String getUsername() {
         return mUsername;
@@ -15,15 +25,15 @@ public class User implements Serializable {
         mUsername = username;
     }
 
-    public int getPassword() {
+    public String getPassword() {
         return mPassword;
     }
 
-    public void setPassword(int password) {
+    public void setPassword(String password) {
         mPassword = password;
     }
 
-    public User(String username, int password) {
+    public User(String username, String password) {
         mUsername = username;
         mPassword = password;
     }
