@@ -2,30 +2,53 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout_in_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EFB1FA"
+    android:background="@drawable/detail_background"
     android:orientation="vertical"
     android:padding="8dp"
     tools:context=".Controler.TaskDetailDialogFragment">
 
-    <TextView
-        android:id="@+id/textView_detail_task_title"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#3F51B5"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        tools:text="Task Title" />
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/textView_detail_task_state"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textColor="#070000"
-        android:textSize="30sp"
-        tools:text="Task State" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView_detail_task_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FBFBFD"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                tools:text="Task Title" />
+
+            <TextView
+                android:id="@+id/textView_detail_task_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="#070000"
+                android:textSize="18sp"
+                tools:text="Task State" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView_in_task_detail"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:src="@drawable/camera_icon_png" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textView2"
@@ -33,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Task description:"
-        android:textColor="#390202"
+        android:textColor="#FBF8F8"
         android:textSize="22dp" />
 
     <TextView
@@ -41,6 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:textColor="#020000"
         android:textSize="18sp"
         tools:text="description" />
 
@@ -49,22 +73,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:background="@drawable/button_background"
+        android:textColor="#FAF8F8"
         android:textSize="14sp"
-        tools:text="time" />
+        tools:text="date" />
 
     <Button
         android:id="@+id/button_detail_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button"
-        android:textSize="15dp" />
+        android:layout_marginTop="8dp"
+        android:background="@drawable/button_background"
+        android:textColor="#F8F5F5"
+        android:textSize="18sp"
+        tools:text="time" />
+
+    <ImageButton
+        android:id="@+id/button_share_in_task_detail"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/share_icon_background"
+        android:src="@drawable/ic_action_delete2" />
 
     <ImageButton
         android:id="@+id/button_delete_in_task_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
-        android:src="@drawable/ic_action_delete2" />
+        android:background="@drawable/share_icon_background"
+        android:src="@drawable/ic_action_delete3" />
 
 </LinearLayout>

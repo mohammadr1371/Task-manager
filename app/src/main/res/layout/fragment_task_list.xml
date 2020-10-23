@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#C6C4C4"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".Controler.TaskListFragment">
@@ -33,12 +32,11 @@
             android:textStyle="bold" />
 
         <ImageView
+            android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|center_horizontal"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/add_list_icon_siyah_sefid"
-            android:visibility="visible" />
+            android:layout_height="match_parent"
+            android:src="@drawable/nothing_found_image" />
+
     </LinearLayout>
 
 </LinearLayout>

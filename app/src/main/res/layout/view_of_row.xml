@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/row_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:background="#23D5C4"
+    android:background="@drawable/row_style"
     android:orientation="vertical"
     android:padding="8dp">
 
@@ -14,9 +15,22 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/button_icon_in_row"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/icon_style"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            tools:text="b" />
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:layout_weight="5"
             android:orientation="vertical">
 
@@ -38,16 +52,23 @@
                 android:textColor="#FAF8F7"
                 android:textSize="18sp" />
 
+            <TextView
+                android:id="@+id/textView_username_in_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="TextView"
+                android:textSize="24sp" />
+
         </LinearLayout>
 
-        <Button
-            android:id="@+id/button_row_icon"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/imageView_in_row"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:background="#F5F8F8"
-            android:textSize="24sp"
-            tools:text="A" />
+            app:srcCompat="@drawable/ic_image_white" />
 
     </LinearLayout>
 

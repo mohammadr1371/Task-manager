@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="16dp"
     android:layout_marginBottom="8dp"
-    android:background="#F4E664"
+    android:background="#FAEF8A"
     android:orientation="vertical"
     android:padding="8dp"
     tools:context=".Controler.SignInDialogFragment">
@@ -61,8 +61,9 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
             android:layout_weight="1"
-            android:background="#FA2B2B"
+            android:background="@drawable/cancel_background"
             android:text="Cancel"
+            android:textColor="#F40303"
             android:textSize="18sp" />
 
         <Button
@@ -70,8 +71,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#4CAF50"
+            android:background="@drawable/login_background"
             android:text="Sign up"
+            android:textColor="#4CAF50"
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>

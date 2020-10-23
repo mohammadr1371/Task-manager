@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#8A8986"
+    android:background="@drawable/main_background"
     android:orientation="vertical"
-    android:padding="8dp"
     tools:context=".Controler.TaskViewPagerActivity">
 
     <TextView
         android:id="@+id/textView_username_task_view_pager"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textColor="#3F51B5"
+        android:layout_centerHorizontal="true"
+        android:textColor="#FFFFFF"
         android:textSize="30sp"
         android:textStyle="bold"
         tools:text="username" />
@@ -22,13 +21,15 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView_username_task_view_pager" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/task_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="330dp"
-        android:layout_marginTop="8dp">
+        android:layout_height="match_parent"
+        android:layout_below="@id/tab_layout"
+        android:padding="8dp">
 
     </androidx.viewpager2.widget.ViewPager2>
 
@@ -36,10 +37,13 @@
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp"
+        android:background="@drawable/cancel_background"
         android:clickable="true"
         android:focusable="auto"
-        app:backgroundTint="#FAF8F8"
-        app:srcCompat="@android:drawable/ic_input_add" />
-</LinearLayout>
+        android:src="@drawable/ic_add_white"
+        app:backgroundTint="@color/design_default_color_error" />
+</RelativeLayout>

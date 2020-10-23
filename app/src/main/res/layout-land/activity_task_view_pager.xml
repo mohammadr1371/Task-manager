@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#C1BFBF"
+    android:background="@drawable/main_background"
     android:gravity="clip_horizontal"
     android:orientation="vertical"
     android:padding="8dp">
@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|center_horizontal"
-            android:textColor="#051B93"
+            android:textColor="#FFFFFF"
             android:textSize="24sp"
             tools:text="username" />
 
@@ -30,7 +30,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="400dp"
             android:clickable="true"
-            app:srcCompat="@android:drawable/ic_input_add" />
+            app:backgroundTint="@color/design_default_color_error"
+            app:srcCompat="@drawable/ic_add_white" />
 
     </LinearLayout>
 
